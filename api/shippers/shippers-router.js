@@ -1,59 +1,60 @@
-const express = require('express')
-const Shipper = require('./shippers-model')
-const { checkId, checkPayload } = require('./shippers-middleware')
+const express = require("express");
+const Shipper = require("./shippers-model");
+const { checkId, checkPayload } = require("./shippers-middleware");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const data = await Shipper.get()
-    res.json(data)
+    const data = await Shipper.get();
+    res.json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.get('/:id', checkId, async (req, res, next) => {
+router.get("/:id", checkId, async (req, res, next) => {
   try {
-    const data = await Shipper.getById(req.params.id)
-    res.json(data)
+    const data = await Shipper.getById(req.params.id);
+    res.json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.post('/', checkPayload, async (req, res, next) => {
+router.post("/", checkPayload, async (req, res, next) => {
   try {
-    const data = await Shipper.create(req.body)
-    res.json(data)
+    const data = await Shipper.create(req.body);
+    res.status(201).json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.put('/:id', checkPayload, checkId, async (req, res, next) => {
+router.put("/:id", checkPayload, checkId, async (req, res, next) => {
   try {
-    const data = await Shipper.update(req.params.id, req.body)
-    res.json(data)
+    const data = await Shipper.update(req.params.id, req.body);
+    res.json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.delete('/:id', checkId, async (req, res, next) => {
+router.delete("/:id", checkId, async (req, res, next) => {
   try {
-    const data = await Shipper.remove(req.params.id)
-    res.json(data)
+    const data = await Shipper.remove(req.params.id);
+    res.json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.use((err, req, res, next) => { // eslint-disable-line
+router.use((err, req, res, next) => {
+  // eslint-disable-line
   res.status(err.status || 500).json({
     message: err.message,
     stack: err.stack,
-  })
-})
+  });
+});
 
-module.exports = router
+module.exports = router;
